@@ -24,31 +24,26 @@ const int challengeCount = sizeof(challenges) / sizeof(challenges[0]);
 int challengeIndex = 0;
 
 const char DASHBOARD[] PROGMEM = R"rawliteral(
-<!doctype html><html><head><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>ScoutLink Relay</title>
-<style>
-body{font-family:system-ui;background:#071b2a;color:#f5f7fa;margin:0}
-main{max-width:900px;margin:auto;padding:24px}.card{background:#10344b;border:1px solid #2b607c;border-radius:16px;padding:18px;margin:14px 0}
-h1{margin-bottom:4px}.badge{display:inline-block;padding:6px 10px;border-radius:999px;background:#f2c94c;color:#071b2a;font-weight:700}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
-button{border:0;border-radius:10px;padding:12px 16px;font-weight:700;cursor:pointer}.muted{color:#b9ccd8}
+<!doctype html><html lang="en"><head><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#08233b">
+<title>ScoutLink Relay</title><style>
+*{box-sizing:border-box}body{margin:0;background:#071827;color:#f4f8fc;font:16px/1.5 system-ui,sans-serif}
+main{max-width:800px;margin:auto;padding:18px}.tag{color:#ffd166;font-weight:800;letter-spacing:.1em;font-size:.8rem}
+h1{font-size:clamp(2rem,6vw,3rem);line-height:1.1;margin:8px 0}h2{font-size:1.15rem;margin:0 0 12px}
+.muted{color:#afc4d4;font-size:.92rem}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.card{background:#102d46;border:1px solid #28516d;border-radius:17px;padding:16px;margin:12px 0}
+.big{font-size:1.8rem;font-weight:850}.label{font-size:.82rem;color:#afc4d4}
+.gold{border-color:#78612a;background:#1b3044}.kind{color:#ffd166;font-size:.78rem;font-weight:800}
+button{font:inherit;font-weight:800;border:0;border-radius:11px;padding:12px 14px;background:#ffd166;color:#102239;min-height:44px;cursor:pointer}
+@media(max-width:460px){main{padding:14px}.grid{grid-template-columns:1fr}.card{padding:14px}}
 </style></head><body><main>
-<span class="badge">JOTA-JOTI 2026</span><h1>ScoutLink Relay</h1>
-<p class="muted">Two ESP32s • one Scout camp • connected by curiosity</p>
-<div class="grid">
-<div class="card"><h3>Field Node</h3><div id="online">Checking...</div></div>
-<div class="card"><h3>Events</h3><div id="events">0</div></div>
-<div class="card"><h3>Last event</h3><div id="event">—</div></div>
-</div>
-<div class="card"><h2>Scout Challenge</h2><p id="challenge"></p><button onclick="nextChallenge()">New Challenge</button></div>
-<div class="card"><h2>How it works</h2><pre>ESP32 #1 → Wi-Fi Access Point → ESP32 #2
-Base Station       HTTP/JSON       Field Node</pre></div>
+<div class="tag">JOTA-JOTI • SCOUTLINK RELAY</div><h1>Scout camp dashboard</h1>
+<p class="muted">Served directly by your Base Station ESP32. No LCD, cloud account or internet required.</p>
+<div class="grid"><section class="card"><div class="big" id="events">0</div><div class="label">Field-node events</div></section>
+<section class="card"><div class="big" id="status">WAITING</div><div class="label">Field Node status</div></section></div>
+<section class="card gold"><div class="kind">CURRENT SCOUT CHALLENGE</div><h2 id="challenge">Loading…</h2><button onclick="nextChallenge()">Next challenge →</button></section>
+<section class="card"><h2>Last field activity</h2><p id="event" class="muted">Waiting for the Field Node.</p><p class="muted">Connect your phone to Wi-Fi <b>JOTA-JOTI-2026</b> and open <b>http://192.168.4.1</b>.</p></section>
 <script>
-async function refresh(){const r=await fetch('/api/state');const s=await r.json();
-document.getElementById('online').textContent=s.online?'ONLINE':'WAITING';
-document.getElementById('events').textContent=s.events;
-document.getElementById('event').textContent=s.lastEvent;
-document.getElementById('challenge').textContent=s.challenge;}
+async function refresh(){try{const r=await fetch('/api/state');const s=await r.json();document.getElementById('status').textContent=s.online?'ONLINE':'WAITING';document.getElementById('events').textContent=s.events;document.getElementById('event').textContent=s.lastEvent;document.getElementById('challenge').textContent=s.challenge}catch(e){document.getElementById('status').textContent='RECONNECT'}}
 async function nextChallenge(){await fetch('/api/next');refresh()}
 refresh();setInterval(refresh,1500);
 </script></main></body></html>
