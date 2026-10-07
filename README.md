@@ -34,30 +34,30 @@ The project is designed as a JOTA-JOTI-style activity around communication, team
 - **Digital Scout:** explain one rule for staying safe online.
 - **Team Scout:** complete a challenge together and log the result.
 
-## Hardware
+## Hardware — deliberately simple
 
-Minimum:
+This project is **ESP32 + breadboard only**. There is no LCD, OLED, sensor pack, buzzer or other extra hardware.
+
+You need:
 - 2 × ESP32 development boards
 - 2 × USB cables
+- 1 × solderless breadboard
 - 1 × push button
-- 1 × LED + 220–330 Ω resistor (optional if your board has a usable onboard LED)
-- jumper wires + breadboard
+- 1 × red LED
+- 1 × 220–330 Ω resistor
+- jumper wires
+- a phone with Wi-Fi and a web browser
 
-Optional:
-- SSD1306 I²C OLED
-- BME280 temperature/humidity sensor
-- light sensor
-- buzzer
-- battery pack
+The **phone is the display**. ESP32 #1 creates the Wi-Fi network and serves the HTML interface directly.
 
-### Field-node pins
+### Field-node wiring
 
-| Part | GPIO |
-|---|---:|
-| Scout button | 4 to GND |
-| Status LED | 2 |
-| Optional I²C SDA | 21 |
-| Optional I²C SCL | 22 |
+| Component | Connection |
+|---|---|
+| Push button | GPIO 4 → button → GND |
+| LED anode | GPIO 2 → 220–330 Ω resistor → LED |
+| LED cathode | GND |
+| ESP32 power | USB |
 
 GPIO 4 is used for the button because it avoids the common boot-strap concern of GPIO 0 on many ESP32 DevKit boards.
 
@@ -75,8 +75,33 @@ JotaJoti2026LX9S/
 └── assets/
     ├── system-overview.svg
     ├── wiring.svg
+    ├── ui-and-build-mockup.svg
     └── PHOTO_GUIDE.md
 ```
+
+## What the finished project should look like
+
+The intended setup is shown by the visual mockup in `assets/ui-and-build-mockup.svg`.
+
+**Physical side:** two ESP32 boards, a breadboard, a push button, one LED and a resistor.
+
+**Phone side:** a dark JOTA-JOTI-themed HTML dashboard with Base Station status, Field Node status, Scout challenge, event counter, latest activity, challenge completion and communication log.
+
+The HTML is served locally by the Base Station ESP32. A phone joins the ESP32 Wi-Fi and opens the page in a normal browser.
+
+## Phone connection — the main demo
+
+1. Power **ESP32 #1 Base Station**.
+2. On the phone, open Wi-Fi settings.
+3. Join **`JOTA-JOTI-2026`**.
+4. Enter the demo password **`ScoutLink2026`**.
+5. Open **`http://192.168.4.1`**.
+6. The ScoutLink dashboard appears.
+7. Power **ESP32 #2 Field Node**.
+8. Press the breadboard button.
+9. Watch the phone dashboard show the field-node event.
+
+The project does **not** need internet access for this demonstration.
 
 ## Quick start
 
@@ -147,6 +172,18 @@ Discuss:
 - Why is a local network useful?
 - How could this become a worldwide Scout activity?
 - How could the project use less energy?
+
+## Suggested generated-photo / presentation set
+
+For a project presentation, make or generate these five visuals using the exact build above:
+
+1. **Hardware hero:** two ESP32 DevKit boards on a breadboard with the red LED and button visible.
+2. **Phone dashboard:** a phone connected to `JOTA-JOTI-2026` showing the ScoutLink challenge screen.
+3. **Connected setup:** both ESP32s powered and the phone dashboard showing **FIELD NODE: ONLINE**.
+4. **Challenge moment:** Scouts using the physical button while the phone displays the active challenge.
+5. **Result:** the dashboard showing completed challenges and the activity log.
+
+Keep every generated or photographed hardware visual consistent with the actual project: **ESP32 + breadboard + button + LED + resistor + phone only**.
 
 ## Protocol
 
