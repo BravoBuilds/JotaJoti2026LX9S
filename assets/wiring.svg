@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="700" viewBox="0 0 1200 700">
+<rect width="1200" height="700" fill="#071b2a"/>
+<text x="60" y="65" fill="#f2c94c" font-family="Arial" font-size="30" font-weight="700">SCOUTLINK RELAY • FIELD NODE WIRING</text>
+<rect x="90" y="150" width="430" height="410" rx="28" fill="#10344b" stroke="#2b607c" stroke-width="3"/>
+<text x="145" y="210" fill="#fff" font-family="Arial" font-size="34" font-weight="700">ESP32 DEVKIT</text>
+<text x="145" y="275" fill="#b9ccd8" font-family="Arial" font-size="24">GPIO 4  →  Scout Button</text>
+<text x="145" y="330" fill="#b9ccd8" font-family="Arial" font-size="24">GPIO 2  →  LED</text>
+<text x="145" y="385" fill="#b9ccd8" font-family="Arial" font-size="24">GND     →  Button / LED return</text>
+<text x="145" y="455" fill="#b9ccd8" font-family="Arial" font-size="21">Optional I²C:</text>
+<text x="145" y="490" fill="#b9ccd8" font-family="Arial" font-size="21">SDA 21 • SCL 22</text>
+<circle cx="720" cy="270" r="42" fill="#f2c94c"/><text x="705" y="280" fill="#071b2a" font-family="Arial" font-size="22" font-weight="700">BTN</text>
+<circle cx="720" cy="440" r="42" fill="#70e000"/><text x="705" y="450" fill="#071b2a" font-family="Arial" font-size="22" font-weight="700">LED</text>
+<rect x="930" y="230" width="150" height="70" rx="12" fill="#06121c" stroke="#f2c94c" stroke-width="3"/>
+<text x="962" y="273" fill="#fff" font-family="Arial" font-size="24">GND</text>
+<rect x="930" y="400" width="150" height="70" rx="12" fill="#06121c" stroke="#70e000" stroke-width="3"/>
+<text x="958" y="443" fill="#fff" font-family="Arial" font-size="24">GPIO 2</text>
+<path d="M520 270 H678" stroke="#f2c94c" stroke-width="8"/>
+<path d="M520 440 H678" stroke="#70e000" stroke-width="8"/>
+<path d="M762 270 H930" stroke="#f2c94c" stroke-width="8"/>
+<path d="M762 440 H930" stroke="#70e000" stroke-width="8"/>
+<text x="60" y="625" fill="#b9ccd8" font-family="Arial" font-size="19">Use a 220–330 Ω resistor in series with an external LED. Button uses INPUT_PULLUP.</text>
+</svg>
