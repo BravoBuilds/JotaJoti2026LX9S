@@ -1,0 +1,32 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><title>ScoutLink Relay Simulation</title>
+<style>
+:root{font-family:system-ui,sans-serif;background:#071b2a;color:#f5f7fa}body{margin:0}
+.wrap{max-width:1050px;margin:auto;padding:24px}header{padding:22px 0}.tag{background:#f2c94c;color:#071b2a;padding:7px 11px;border-radius:999px;font-weight:800}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}@media(max-width:750px){.grid{grid-template-columns:1fr}}
+.card{background:#10344b;border:1px solid #2b607c;border-radius:18px;padding:20px}
+.status{font-size:1.3rem;font-weight:800}.online{color:#70e000}.offline{color:#ff8c69}
+button{background:#f2c94c;color:#071b2a;border:0;border-radius:10px;padding:12px 15px;margin:4px;font-weight:800;cursor:pointer}
+.log{background:#06121c;border-radius:12px;padding:12px;height:180px;overflow:auto;font-family:ui-monospace,monospace;font-size:.9rem}.small{color:#b9ccd8}
+</style></head><body><div class="wrap">
+<header><span class="tag">JOTA-JOTI 2026</span><h1>ScoutLink Relay — Browser Simulation</h1>
+<p class="small">Pretend these are two real ESP32 boards. The simulation uses the same Scout workflow.</p></header>
+<div class="grid">
+<section class="card"><h2>ESP32 #1 — Base Station</h2><p>Wi-Fi: <b>JOTA-JOTI-2026</b></p><p class="status online">● AP ONLINE</p>
+<button onclick="newChallenge()">New Challenge</button><button onclick="sendMessage()">Send Message</button></section>
+<section class="card"><h2>ESP32 #2 — Field Node</h2><p id="field" class="status offline">● WAITING</p>
+<button onclick="scoutButton()">Scout Button</button><p>LED: <b id="led">OFF</b></p></section></div>
+<section class="card"><h2>Current Scout Challenge</h2><p id="challenge"></p></section>
+<section class="card"><h2>Communication Log</h2><div id="log" class="log"></div></section>
+</div>
+<script>
+const challenges=["RADIO SCOUT: Tap a short Morse message with the Scout button.","GREEN SCOUT: Name one way your camp can save electricity.","WORLD SCOUT: Create a greeting for a Scout in another country.","DIGITAL SCOUT: State one rule for staying safe online.","TEAM SCOUT: Complete a challenge together and report your result."];
+let ci=0,events=0,led=false,online=false;
+const $=id=>document.getElementById(id);
+function log(s){$('log').innerHTML+=new Date().toLocaleTimeString()+"  "+s+"<br>";$('log').scrollTop=$('log').scrollHeight}
+function render(){$('challenge').textContent=challenges[ci];$('field').className='status '+(online?'online':'offline');$('field').textContent=online?'● FIELD NODE ONLINE':'● WAITING';$('led').textContent=led?'ON':'OFF'}
+function newChallenge(){ci=(ci+1)%challenges.length;log("BASE → New Scout Challenge issued");render()}
+function scoutButton(){online=true;events++;led=!led;log("FIELD → SCOUT_BUTTON acknowledged (event "+events+")");render()}
+function sendMessage(){online=true;log("BASE → FIELD: ScoutLink message delivered");render()}
+render();log("Simulation started — Base Station is ready");setTimeout(()=>{online=true;log("FIELD → BASE: heartbeat received");render()},1000);
+</script></body></html>
