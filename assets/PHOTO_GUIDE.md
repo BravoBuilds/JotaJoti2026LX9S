@@ -1,18 +1,40 @@
-# Photo Guide
+# Photo and UI Mockup Guide
 
-The project includes diagrams and a browser simulation so it can be demonstrated without hardware.
+The visual direction is intentionally simple:
 
-For a real JOTA-JOTI activity, add your own original photos here:
+**ESP32 + breadboard + button + LED + resistor + phone.**
 
-1. **01-base-station.jpg** — ESP32 #1 powered on, showing the ScoutLink dashboard.
-2. **02-field-node.jpg** — ESP32 #2 with button and LED on a breadboard.
-3. **03-connected.jpg** — both ESP32s running together.
-4. **04-challenge.jpg** — Scouts completing a Green Scout or World Scout challenge.
-5. **05-team.jpg** — the group testing the browser simulation.
+No LCD, OLED, BME280, buzzer or other display/sensor hardware is part of the core build.
 
-Take photos that do not reveal passwords, personal contact information, or private data. Avoid photographing children who have not been cleared under your group's photography policy.
+## Generated visual direction
 
-Recommended caption style:
-> ScoutLink Relay — two ESP32 boards creating a local Scout communication activity for JOTA-JOTI.
+The generated project mockup should show:
+- two ESP32 DevKit boards;
+- a solderless breadboard;
+- one red LED;
+- one push button;
+- jumper wires;
+- a phone showing the ScoutLink HTML dashboard;
+- JOTA-JOTI 2026 styling;
+- no extra electronics.
+
+The phone UI should show a Scout challenge, Field Node status, event counter and activity log.
+
+## Real photo checklist
+
+If you take photos for the repository:
+
+1. **01-hardware.jpg** — both ESP32 boards and the breadboard.
+2. **02-wiring.jpg** — close-up of GPIO 4 button and GPIO 2 LED wiring.
+3. **03-phone-dashboard.jpg** — phone connected to the ESP32 Wi-Fi and showing the dashboard.
+4. **04-connected.jpg** — both ESP32s operating with the phone dashboard.
+5. **05-scout-challenge.jpg** — Scouts completing a challenge.
+6. **06-result.jpg** — completed challenge and activity log.
+
+Do not expose the Wi-Fi password in a public photo. Do not photograph children unless your group's photography policy allows it.
+
+## Browser simulation
+
+`../simulation/index.html` is the no-hardware version of the same phone workflow. It should look and behave like the real ESP32-hosted page as closely as practical.
 
 Do not copy random internet photos into this repository unless you have permission to redistribute them.
