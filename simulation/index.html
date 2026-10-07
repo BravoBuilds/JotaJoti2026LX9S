@@ -1,32 +1,58 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1"><title>ScoutLink Relay Simulation</title>
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#08233b">
+<title>ScoutLink Relay — Scout Dashboard</title>
 <style>
-:root{font-family:system-ui,sans-serif;background:#071b2a;color:#f5f7fa}body{margin:0}
-.wrap{max-width:1050px;margin:auto;padding:24px}header{padding:22px 0}.tag{background:#f2c94c;color:#071b2a;padding:7px 11px;border-radius:999px;font-weight:800}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}@media(max-width:750px){.grid{grid-template-columns:1fr}}
-.card{background:#10344b;border:1px solid #2b607c;border-radius:18px;padding:20px}
-.status{font-size:1.3rem;font-weight:800}.online{color:#70e000}.offline{color:#ff8c69}
-button{background:#f2c94c;color:#071b2a;border:0;border-radius:10px;padding:12px 15px;margin:4px;font-weight:800;cursor:pointer}
-.log{background:#06121c;border-radius:12px;padding:12px;height:180px;overflow:auto;font-family:ui-monospace,monospace;font-size:.9rem}.small{color:#b9ccd8}
-</style></head><body><div class="wrap">
-<header><span class="tag">JOTA-JOTI 2026</span><h1>ScoutLink Relay — Browser Simulation</h1>
-<p class="small">Pretend these are two real ESP32 boards. The simulation uses the same Scout workflow.</p></header>
-<div class="grid">
-<section class="card"><h2>ESP32 #1 — Base Station</h2><p>Wi-Fi: <b>JOTA-JOTI-2026</b></p><p class="status online">● AP ONLINE</p>
-<button onclick="newChallenge()">New Challenge</button><button onclick="sendMessage()">Send Message</button></section>
-<section class="card"><h2>ESP32 #2 — Field Node</h2><p id="field" class="status offline">● WAITING</p>
-<button onclick="scoutButton()">Scout Button</button><p>LED: <b id="led">OFF</b></p></section></div>
-<section class="card"><h2>Current Scout Challenge</h2><p id="challenge"></p></section>
-<section class="card"><h2>Communication Log</h2><div id="log" class="log"></div></section>
-</div>
+:root{color-scheme:dark;--bg:#071827;--panel:#102d46;--line:#28516d;--gold:#ffd166;--ink:#f4f8fc;--muted:#afc4d4;--green:#67e8a5;--blue:#62b6ff}
+*{box-sizing:border-box}body{margin:0;background:linear-gradient(180deg,#08233b,#06131f 55%);color:var(--ink);font:16px/1.5 system-ui,-apple-system,sans-serif}
+header{padding:24px 18px 18px;max-width:980px;margin:auto}main{max-width:980px;margin:auto;padding:0 16px 34px}
+.eyebrow{color:var(--gold);font-weight:800;letter-spacing:.13em;font-size:.76rem}.brand{display:flex;align-items:center;gap:12px}.logo{display:grid;place-items:center;background:var(--gold);color:#08233b;width:48px;height:48px;border-radius:14px;font-size:1.35rem;font-weight:900}
+h1{font-size:clamp(1.8rem,5vw,3rem);line-height:1.05;margin:8px 0}h2{font-size:1.18rem;margin:0 0 12px}p{margin:7px 0}.muted{color:var(--muted);font-size:.92rem}
+.statusbar{display:flex;gap:9px;flex-wrap:wrap;margin-top:18px}.pill{padding:7px 11px;border-radius:999px;background:#123e38;color:var(--green);font-size:.82rem;font-weight:800}.pill.gold{background:#493b18;color:var(--gold)}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}.card{min-width:0;border:1px solid var(--line);background:rgba(16,45,70,.94);border-radius:18px;padding:17px;margin-bottom:13px}.wide{grid-column:1/-1}
+.stat{font-size:1.8rem;font-weight:850;letter-spacing:-.03em}.statlabel{font-size:.82rem;color:var(--muted)}
+.challenge{border-color:#78612a;background:linear-gradient(140deg,#27364a,#142b40)}.challenge-name{color:var(--gold);font-size:.77rem;font-weight:850;letter-spacing:.08em}.challenge-text{font-size:1.15rem;font-weight:750;margin:8px 0 16px}
+button{font:inherit;font-weight:800;border:0;border-radius:12px;padding:12px 14px;background:var(--gold);color:#102239;cursor:pointer;min-height:46px}button.secondary{background:#183c58;color:var(--ink);border:1px solid #37627f}button:focus-visible{outline:3px solid white;outline-offset:3px}
+.actions{display:flex;gap:9px;flex-wrap:wrap}.node{display:flex;align-items:center;gap:10px}.dot{height:11px;width:11px;border-radius:50%;background:var(--green);box-shadow:0 0 14px #67e8a555}.log{display:grid;gap:8px}.logrow{border-radius:10px;padding:10px;background:#091e30;font-size:.88rem}.time{color:var(--muted);font-size:.76rem;margin-right:8px}
+.challenge-list{display:grid;gap:8px}.challenge-item{border:1px solid var(--line);border-radius:12px;padding:12px;background:#0a2236}.challenge-item strong{display:block;color:var(--gold);font-size:.78rem}.footer{padding:12px 3px;color:var(--muted);font-size:.8rem}
+@media(max-width:520px){.grid{grid-template-columns:1fr}.wide{grid-column:auto}.card{padding:15px}.actions button{flex:1}header{padding-top:20px}}
+</style></head>
+<body>
+<header>
+ <div class="brand"><div class="logo">⚜</div><div><div class="eyebrow">JOTA-JOTI • SCOUTLINK RELAY</div><div class="muted">Two ESP32s. One connected Scout team.</div></div></div>
+ <h1>Scout camp dashboard</h1>
+ <p class="muted">A local web app served by your Base Station ESP32. No LCD, cloud account or internet needed.</p>
+ <div class="statusbar"><span class="pill" id="baseStatus">● SIMULATION READY</span><span class="pill gold" id="fieldStatus">FIELD NODE: WAITING</span></div>
+</header>
+<main>
+ <div class="grid">
+  <section class="card"><div class="stat" id="eventCount">0</div><div class="statlabel">Field-node events</div></section>
+  <section class="card"><div class="stat" id="challengeCount">1 / 5</div><div class="statlabel">Current Scout challenge</div></section>
+  <section class="card wide challenge"><div class="challenge-name" id="challengeType">RADIO SCOUT</div><h2>Mission briefing</h2><div class="challenge-text" id="challengeText"></div><div class="actions"><button onclick="nextChallenge()">Next challenge →</button><button class="secondary" onclick="completeChallenge()">Mark complete ✓</button></div></section>
+  <section class="card wide"><h2>Field Node · ESP32 #2</h2><div class="node"><span class="dot" id="nodeDot"></span><strong id="nodeText">Ready to connect</strong></div><p class="muted">Press the physical button on the breadboard to send an event to the Base Station and toggle the LED.</p><div class="actions"><button onclick="scoutButton()">Simulate button press</button><button class="secondary" onclick="sendMessage()">Send Scout greeting</button></div></section>
+  <section class="card wide"><h2>Challenges for your patrol</h2><div class="challenge-list" id="challengeList"></div></section>
+  <section class="card wide"><h2>Communication log</h2><div class="log" id="log" aria-live="polite"></div></section>
+ </div>
+ <div class="footer">Demo mode runs in your browser. On real hardware, connect to Wi-Fi <strong>JOTA-JOTI-2026</strong> and visit <strong>http://192.168.4.1</strong>. Change the demo password before using it beyond a supervised activity.</div>
+</main>
 <script>
-const challenges=["RADIO SCOUT: Tap a short Morse message with the Scout button.","GREEN SCOUT: Name one way your camp can save electricity.","WORLD SCOUT: Create a greeting for a Scout in another country.","DIGITAL SCOUT: State one rule for staying safe online.","TEAM SCOUT: Complete a challenge together and report your result."];
-let ci=0,events=0,led=false,online=false;
-const $=id=>document.getElementById(id);
-function log(s){$('log').innerHTML+=new Date().toLocaleTimeString()+"  "+s+"<br>";$('log').scrollTop=$('log').scrollHeight}
-function render(){$('challenge').textContent=challenges[ci];$('field').className='status '+(online?'online':'offline');$('field').textContent=online?'● FIELD NODE ONLINE':'● WAITING';$('led').textContent=led?'ON':'OFF'}
-function newChallenge(){ci=(ci+1)%challenges.length;log("BASE → New Scout Challenge issued");render()}
-function scoutButton(){online=true;events++;led=!led;log("FIELD → SCOUT_BUTTON acknowledged (event "+events+")");render()}
-function sendMessage(){online=true;log("BASE → FIELD: ScoutLink message delivered");render()}
-render();log("Simulation started — Base Station is ready");setTimeout(()=>{online=true;log("FIELD → BASE: heartbeat received");render()},1000);
+const challenges=[
+ {type:"RADIO SCOUT",title:"Tap a short Morse message using the Scout button."},
+ {type:"GREEN SCOUT",title:"Name one practical way your patrol can save energy at camp."},
+ {type:"WORLD SCOUT",title:"Create a friendly greeting for a Scout in another country."},
+ {type:"DIGITAL SCOUT",title:"Share one rule for staying safe and respectful online."},
+ {type:"TEAM SCOUT",title:"Solve a challenge together and log what your team learned."}
+];
+let index=0,events=0,online=false,led=false,completed=new Set();
+const el=id=>document.getElementById(id);
+function log(message){const row=document.createElement('div');row.className='logrow';const time=document.createElement('span');time.className='time';time.textContent=new Date().toLocaleTimeString();row.append(time,document.createTextNode(message));el('log').prepend(row)}
+function render(){const c=challenges[index];el('challengeType').textContent=c.type;el('challengeText').textContent=c.title;el('challengeCount').textContent=(index+1)+' / '+challenges.length;el('eventCount').textContent=events;el('fieldStatus').textContent=online?'FIELD NODE: ONLINE':'FIELD NODE: WAITING';el('nodeText').textContent=online?(led?'Node online · LED ON':'Node online · LED OFF'):'Ready to connect';el('nodeDot').style.background=online?'var(--green)':'#f6a35b';el('challengeList').replaceChildren();challenges.forEach((item,i)=>{const row=document.createElement('div');row.className='challenge-item';const strong=document.createElement('strong');strong.textContent=(completed.has(i)?'✓ COMPLETED · ':'')+item.type;const p=document.createElement('div');p.textContent=item.title;row.append(strong,p);el('challengeList').append(row)})}
+function nextChallenge(){index=(index+1)%challenges.length;log('BASE → Issued '+challenges[index].type+' challenge');render()}
+function completeChallenge(){completed.add(index);events++;log('PATROL → Completed '+challenges[index].type+' challenge');render()}
+function scoutButton(){online=true;led=!led;events++;log('FIELD → Scout button pressed; event sent to Base Station');render()}
+function sendMessage(){online=true;events++;log('BASE → FIELD: Scout greeting delivered — Good scouting from JOTA-JOTI!');render()}
+render();log('Base Station started. Waiting for the Field Node heartbeat.');
+setTimeout(()=>{online=true;log('FIELD → BASE: heartbeat received. Node online.');render()},900);
 </script></body></html>
