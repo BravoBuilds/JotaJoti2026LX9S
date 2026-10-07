@@ -9,7 +9,7 @@ ScoutLink Relay turns two ESP32 boards into a small local Scout communication ca
 - **Browser simulation:** demonstrates the whole experience without hardware.
 - **Visual assets:** wiring and system diagrams are included in `assets/`.
 
-The project is designed as a JOTA-JOTI-style activity around communication, teamwork, digital skills, discovery, challenges and sustainability.
+The project is designed as a JOTA-JOTI-style activity around communication, teamwork, digital skills, discovery, challenges and sustainability. The Base Station itself serves the HTML dashboard, so Scouts connect with a phone browser instead of adding an LCD or other display. The minimum build uses ESP32 boards, a breadboard, one push button, one LED and a resistor.
 
 ## What it does
 
