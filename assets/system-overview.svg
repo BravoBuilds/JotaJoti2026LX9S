@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="650" viewBox="0 0 1200 650">
+<rect width="1200" height="650" fill="#071b2a"/>
+<text x="60" y="70" fill="#f2c94c" font-family="Arial" font-size="28" font-weight="700">JOTA-JOTI 2026 • SCOUTLINK RELAY</text>
+<text x="60" y="110" fill="#f5f7fa" font-family="Arial" font-size="42" font-weight="700">CONNECT • DISCOVER • CHALLENGE • SHARE</text>
+<rect x="90" y="190" width="360" height="300" rx="28" fill="#10344b" stroke="#2b607c" stroke-width="3"/>
+<text x="130" y="245" fill="#f2c94c" font-family="Arial" font-size="25" font-weight="700">ESP32 #1</text>
+<text x="130" y="285" fill="#fff" font-family="Arial" font-size="34" font-weight="700">BASE STATION</text>
+<text x="130" y="330" fill="#b9ccd8" font-family="Arial" font-size="21">Wi-Fi access point</text>
+<text x="130" y="365" fill="#b9ccd8" font-family="Arial" font-size="21">Scout challenge server</text>
+<text x="130" y="400" fill="#b9ccd8" font-family="Arial" font-size="21">Web dashboard</text>
+<text x="130" y="435" fill="#b9ccd8" font-family="Arial" font-size="21">Heartbeat + events</text>
+<rect x="750" y="190" width="360" height="300" rx="28" fill="#10344b" stroke="#2b607c" stroke-width="3"/>
+<text x="790" y="245" fill="#f2c94c" font-family="Arial" font-size="25" font-weight="700">ESP32 #2</text>
+<text x="790" y="285" fill="#fff" font-family="Arial" font-size="34" font-weight="700">FIELD NODE</text>
+<text x="790" y="330" fill="#b9ccd8" font-family="Arial" font-size="21">Scout button</text>
+<text x="790" y="365" fill="#b9ccd8" font-family="Arial" font-size="21">Status LED</text>
+<text x="790" y="400" fill="#b9ccd8" font-family="Arial" font-size="21">Challenge polling</text>
+<text x="790" y="435" fill="#b9ccd8" font-family="Arial" font-size="21">Activity heartbeat</text>
+<path d="M450 340 C550 260 650 260 750 340" fill="none" stroke="#f2c94c" stroke-width="7"/>
+<path d="M750 410 C650 490 550 490 450 410" fill="none" stroke="#70e000" stroke-width="7"/>
+<text x="545" y="285" fill="#f2c94c" font-family="Arial" font-size="23" font-weight="700">Wi-Fi</text>
+<text x="545" y="515" fill="#70e000" font-family="Arial" font-size="23" font-weight="700">HTTP / JSON</text>
+<text x="60" y="590" fill="#b9ccd8" font-family="Arial" font-size="20">Local educational network • no cloud account required</text>
+</svg>
